@@ -64,9 +64,9 @@ public class Equipment_Lock extends Plugin
 			"Dark squall robe top", "Dark squall robe bottom", "Slave shirt", "Slave robe", "Slave boots",
 			"Desert shirt", "Desert robes", "Desert boots", "Anti-dragon shield", "Khazard armour",
 			"Khazard helmet", "Ogre boots", "White goblin mail", "Yellow goblin mail", "Black goblin mail",
-			"Blue goblin mail", "Orange goblin mail", "Purple goblin mail", "Ring of charos(a)", "Leather boots"
+			"Blue goblin mail", "Orange goblin mail", "Purple goblin mail", "Ring of charos(a)", "Leather boots",
 			"Priest gown","Magic secateurs","Vyre noble shoes","Vyre noble legs","Vyre noble top","Zamorak staff",
-			"Guthix staff","Saradomin staff","Dawnbringer"
+			"Guthix staff","Saradomin staff","Dawnbringer", "Leather gloves"
 			// Add more items here as needed
 	));
 
