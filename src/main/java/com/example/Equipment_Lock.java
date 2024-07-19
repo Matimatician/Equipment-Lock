@@ -88,8 +88,8 @@ public class Equipment_Lock extends Plugin
 	}
 
 	private void connectToDynamoDB() {
-		String accessKey = "AKIA47CRXKA3SDKWIEGS";
-		String secretKey = "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";
+		String accessKey = key1; 
+		String secretKey = key2; // todo: figure out how to get these to pull without hardcoding
 
 		AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(accessKey, secretKey);
 		dynamoDbClient = DynamoDbClient.builder()
