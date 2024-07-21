@@ -10,92 +10,75 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.api.events.MenuOptionClicked;
-
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
-import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
-import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
-import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
-import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import net.runelite.client.events.ConfigChanged;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.AWSLambdaClient;
 
 @Slf4j
 @PluginDescriptor(
 		name = "Equipment Lock"
 )
-public class Equipment_Lock extends Plugin
-{
+public class Equipment_Lock extends Plugin {
 	@Inject
 	private Client client;
 
 	@Inject
 	private Equipment_Lock_Config config;
 
-	private DynamoDbClient dynamoDbClient;
+	@Inject
+	private ConfigManager configManager;
+
 	private static final String TABLE_NAME = "Item_Assignments";
-	private static final String PARTITION_KEY = "group_item"; // Composite key for item and group
-	private static final String ATTRIBUTE_ITEM_NAME = "item_name";
+	private static final String PARTITION_KEY = "group_item"; // Composite key for group and item
 	private static final String ATTRIBUTE_OWNER = "owner";
-	private static final String ATTRIBUTE_GROUP_ID = "groupId";
+
+	// Local cache for the item ownership information
+	private Map<String, String> localCache = new HashMap<>();
 
 	// Whitelist of items required for quests
 	private static final Set<String> QUEST_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
 			"Spiked boots", "Desert disguise", "Dramen staff", "Ghostspeak amulet", "Glarial's amulet",
-			"Ham hood", "Ham shirt", "Ham robe", "Ham boots", "Ham cloak", "Ham logo", "Ice gloves",
-			"M'speak amulet", "Monkey greegree", "Zombie monkey greegree", "Ninja monkey greegree",
-			"Kruk monkey greegree", "Bearded gorilla greegree", "Gorilla greegree", "Monkey talisman",
+			"Ham shirt", "Ham robe", "Ham gloves", "Ham boots", "Ham cloak", "Ham logo", "Ice gloves",
+			"M'speak amulet", "Zombie monkey greegree", "Ninja monkey greegree", "Kruk monkey greegree",
+			"Bearded gorilla greegree", "Gorilla greegree", "Monkey talisman", "Karamjan monkey greegree",
 			"Catspeak amulet", "Gas mask", "Mourner top", "Mourner trousers", "Mourner boots",
-			"Mourner gloves", "Mourner cloak", "Ogre bow", "SilverLight", "Karamjan monkey greegree",
-			"Ogre bow", "SilverLight", "Excalibur", "Ring of visibility", "Ivandis flail", "Blisterwood flail",
-			"Bronze med helm", "Iron chainbody", "Plague jacket", "Plague trousers", "Climbing boots",
-			"Gold helmet", "Fixed device", "Ice arrows", "Lunar helm", "Lunar amulet", "Lunar ring",
-			"Lunar staff", "Clockwork suit", "Silly jester hat", "Silly jester top", "Silly jester tights",
-			"Silly jester boots", "Builder's hat", "Builder's shirt", "Builder's trousers", "Builder's boots",
-			"Bomber cap", "Bomber jacket", "Ahrim's book", "Torag's hammers", "Verac's flail", "Karil's crossbow",
-			"Dharok's axe", "Guthan's spear", "Ahrim's staff", "Black full helm", "Black platebody",
-			"Black platelegs", "Elite black platebody", "Elite black platelegs", "Dark squall hood",
-			"Dark squall robe top", "Dark squall robe bottom", "Slave shirt", "Slave robe", "Slave boots",
-			"Desert shirt", "Desert robes", "Desert boots", "Anti-dragon shield", "Khazard armour",
-			"Khazard helmet", "Ogre boots", "White goblin mail", "Yellow goblin mail", "Black goblin mail",
-			"Blue goblin mail", "Orange goblin mail", "Purple goblin mail", "Ring of charos(a)", "Leather boots",
-			"Priest gown","Magic secateurs","Vyre noble shoes","Vyre noble legs","Vyre noble top","Zamorak staff",
-			"Guthix staff","Saradomin staff","Dawnbringer", "Leather gloves"
+			"Mourner gloves", "Mourner cloak", "Ogre bow", "SilverLight", "Excalibur", "Ring of visibility",
+			"Ivandis flail", "Blisterwood flail", "Bronze med helm", "Iron chainbody", "Plague jacket",
+			"Plague trousers", "Climbing boots", "Gold helmet", "Fixed device", "Ice arrows",
+			"Lunar helm", "Lunar amulet", "Lunar ring", "Lunar Torso", "Lunar legs", "Lunar legs",
+			"Lunar boots", "Lunar cape", "Lunar staff", "Clockwork suit", "Silly jester hat",
+			"Silly jester top", "Silly jester tights", "Silly jester boots", "Hard hat", "Builder's shirt",
+			"Builder's trousers", "Builder's boots", "Black full helm", "Black platebody", "Black platelegs",
+			"Elite black full helm", "Elite black platebody", "Elite black platelegs", "Ardougne knight helm",
+			"Ardougne knight platebody", "Ardougne knight platelegs", "Dark squall hood", "Dark squall robe top",
+			"Dark squall robe bottom", "Mirror shield", "V's shield", "Slave shirt", "Slave robe", "Slave boots",
+			"Desert shirt", "Desert robes", "Desert boots", "Khazard armour", "Khazard helmet", "Anti-dragon shield",
+			"Reinforced goggles", "Mith grapple", "Ogre arrow", "10th squad sigil", "White goblin mail",
+			"Yellow goblin mail", "Black goblin mail", "Blue goblin mail", "Orange goblin mail", "Purple goblin mail",
+			"Goblin mail", "Ring of charos(a)", "Ring of charos", "Leather boots", "Leather gloves", "Priest gown",
+			"Magic secateurs", "Vyre noble shoes", "Vyre noble legs", "Vyre noble top", "Zamorak staff", "Guthix staff",
+			"Saradomin staff", "Dawnbringer", "Diving apparatus", "Fishbowl helmet", "Anger sword", "Anger spear",
+			"Anger mace", "Anger battleaxe"
 			// Add more items here as needed
 	));
 
-
 	@Override
-	protected void startUp() throws Exception
-	{
+	protected void startUp() throws Exception {
 		log.info("Equipment Lock started!");
-		connectToDynamoDB();
+		cacheData(config.groupId());
 	}
 
 	@Override
-	protected void shutDown() throws Exception
-	{
+	protected void shutDown() throws Exception {
 		log.info("Equipment Lock stopped!");
-		if (dynamoDbClient != null) {
-			dynamoDbClient.close();
-		}
-	}
-
-	private void connectToDynamoDB() {
-		String accessKey = key1; 
-		String secretKey = key2; // todo: figure out how to get these to pull without hardcoding
-
-		AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(accessKey, secretKey);
-		dynamoDbClient = DynamoDbClient.builder()
-				.region(Region.US_EAST_2)
-				.credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
-				.build();
+		localCache.clear();
 	}
 
 	public String cleanItemName(String itemName) {
@@ -115,56 +98,148 @@ public class Equipment_Lock extends Plugin
 	}
 
 	private void handleItemEquip(String itemName, String playerName, String groupId, MenuOptionClicked event) {
-		// Print the equipped item's name and the username of the player for debugging
+		String hashedPlayerName = Utils.hashUsername(playerName);
+
 		log.info("Equipped item name: " + itemName);
-		log.info("Player name: " + playerName);
+		log.info("Hashed player name: " + hashedPlayerName);
 		log.info("Group ID: " + groupId);
 
-		// Check if the item is in the whitelist and the checkbox is checked
 		if (config.excludeQuestItems() && QUEST_ITEMS_WHITELIST.contains(itemName)) {
 			log.info("Item is whitelisted and quest item exclusion is enabled, bypassing server check.");
-			return; // Allow equipping without interacting with the server
+			return;
 		}
 
-		// Check if the item exists in the DynamoDB table
-		Map<String, AttributeValue> key = new HashMap<>();
-		key.put(PARTITION_KEY, AttributeValue.builder().s(groupId + "_" + itemName).build());
+		String cacheKey = groupId + "_" + itemName;
+		String owner = localCache.get(cacheKey);
 
-		GetItemRequest getItemRequest = GetItemRequest.builder()
-				.tableName(TABLE_NAME)
-				.key(key)
-				.build();
-
-		GetItemResponse getItemResponse = dynamoDbClient.getItem(getItemRequest);
-		Map<String, AttributeValue> item = getItemResponse.item();
-
-		if (item == null || !item.containsKey(ATTRIBUTE_OWNER)) {
-			// Item does not exist, add it to the table
-			Map<String, AttributeValue> newItem = new HashMap<>();
-			newItem.put(PARTITION_KEY, AttributeValue.builder().s(groupId + "_" + itemName).build());
-			newItem.put(ATTRIBUTE_OWNER, AttributeValue.builder().s(playerName).build());
-
-			PutItemRequest putItemRequest = PutItemRequest.builder()
-					.tableName(TABLE_NAME)
-					.item(newItem)
-					.build();
-
-			PutItemResponse putItemResponse = dynamoDbClient.putItem(putItemRequest);
-			log.info("Item added to DynamoDB: " + putItemResponse);
-		} else {
-			// Item exists, check ownership
-			String owner = item.get(ATTRIBUTE_OWNER).s();
-			if (!playerName.equals(owner)) {
+		if (owner != null) {
+			// Item found in cache, check ownership
+			log.info("Item found in cache with owner: " + owner);
+			if (!hashedPlayerName.equals(owner)) {
 				// Player is not the owner, prevent equipping
-				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "In your group, " + owner + " has claimed the right to this item, so you cannot equip it.", null);
+				log.info("Player is not the owner, preventing equip.");
+				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Someone else in your group has claimed the right to this item, so you cannot equip it.", null);
 				event.consume();
+			} else {
+				log.info("Player is the owner, allowing equipping.");
+			}
+		} else {
+			// Item not found in cache, fetch from server
+			log.info("Item not found in cache, fetching from server.");
+			Map<String, Object> payload = new HashMap<>();
+			payload.put("action", "getItem");
+			payload.put("group_item", cacheKey);
+
+			try {
+				String response = AWSLambdaClient.callLambda(payload); // Synchronous call
+				log.info("Response from getItem: " + response);
+
+				// Parse the response (assuming the response contains the owner information)
+				Map<String, Object> responseMap = new ObjectMapper().readValue(response, Map.class);
+				Map<String, Object> body = responseMap.containsKey("body") ? new ObjectMapper().readValue(responseMap.get("body").toString(), Map.class) : null;
+				Map<String, String> item = body != null ? (Map<String, String>) body.get("Item") : null;
+
+				log.info("Parsed item: " + item);
+				if (item != null && item.containsKey(ATTRIBUTE_OWNER)) {
+					// Item exists, update local cache
+					String serverOwner = item.get(ATTRIBUTE_OWNER);
+					log.info("Item exists with owner: " + serverOwner);
+					localCache.put(cacheKey, serverOwner);
+
+					if (!hashedPlayerName.equals(serverOwner)) {
+						// Player is not the owner, prevent equipping
+						log.info("Player is not the owner, preventing equip.");
+						client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Someone else in your group has claimed the right to this item, so you cannot equip it.", null);
+						event.consume();
+					} else {
+						log.info("Player is the owner, allowing equipping.");
+					}
+				} else {
+					// Item does not exist, allow equipping immediately and create a new entry
+					log.info("Item does not exist, allowing equip and creating new entry.");
+
+					// Allow equipping immediately
+					log.info("Player is allowed to equip the item.");
+
+					// Create new entry in DynamoDB asynchronously
+					CompletableFuture.runAsync(() -> {
+						try {
+							Map<String, Object> putPayload = new HashMap<>();
+							putPayload.put("action", "putItem");
+							Map<String, String> newItem = new HashMap<>();
+							newItem.put(PARTITION_KEY, cacheKey);
+							newItem.put(ATTRIBUTE_OWNER, hashedPlayerName);
+							putPayload.put("item", newItem);
+
+							AWSLambdaClient.callLambdaAsync(putPayload).thenAccept(putResponse -> {
+								log.info("Item added to DynamoDB: " + putResponse);
+								localCache.put(cacheKey, hashedPlayerName); // Update the cache
+							});
+						} catch (Exception e) {
+							log.error("Error adding item to DynamoDB", e);
+						}
+					});
+				}
+			} catch (Exception e) {
+				log.error("Error handling item equip", e);
 			}
 		}
 	}
 
+
 	@Provides
-	Equipment_Lock_Config provideConfig(ConfigManager configManager)
-	{
+	Equipment_Lock_Config provideConfig(ConfigManager configManager) {
 		return configManager.getConfig(Equipment_Lock_Config.class);
 	}
+
+	@Subscribe
+	public void onConfigChanged(ConfigChanged event) {
+		if (event.getGroup().equals("EquipmentLock") && event.getKey().equals("groupId")) {
+			String newGroupId = config.groupId();
+			log.info("Group ID changed: " + newGroupId);
+			cacheData(newGroupId);
+		}
+	}
+
+	private void cacheData(String groupId) {
+		// Fetch and cache data asynchronously
+		CompletableFuture.runAsync(() -> {
+			try {
+				log.info("Starting cache data process for groupId: " + groupId);
+
+				Map<String, Object> payload = new HashMap<>();
+				payload.put("action", "getAllItemsForGroup");
+				payload.put("groupPrefix", groupId + "_"); // Adding underscore to group prefix
+
+				log.info("Payload being sent: " + payload);
+
+				String response = AWSLambdaClient.callLambda(payload);
+				log.info("Cache response: " + response);
+
+				Map<String, Object> responseMap = new ObjectMapper().readValue(response, Map.class);
+				log.info("Parsed response map: " + responseMap);
+
+				Map<String, Object> body = responseMap.containsKey("body") ? new ObjectMapper().readValue(responseMap.get("body").toString(), Map.class) : null;
+				log.info("Parsed body: " + body);
+
+				List<Map<String, String>> items = body != null ? (List<Map<String, String>>) body.get("Items") : null;
+				log.info("Parsed items: " + items);
+
+				if (items != null) {
+					for (Map<String, String> item : items) {
+						String key = item.get("group_item");
+						String owner = item.get(ATTRIBUTE_OWNER);
+						localCache.put(key, owner);
+						log.info("Cached item - Key: " + key + ", Owner: " + owner);
+					}
+				}
+
+				log.info("Cache updated with items: " + localCache);
+			} catch (Exception e) {
+				log.error("Error caching data", e);
+			}
+		});
+	}
+
+
 }
