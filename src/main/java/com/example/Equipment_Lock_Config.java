@@ -4,7 +4,7 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("Equipment Lock")
+@ConfigGroup("EquipmentLock")
 public interface Equipment_Lock_Config extends Config
 {
 	@ConfigItem(
