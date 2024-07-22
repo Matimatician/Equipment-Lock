@@ -18,22 +18,29 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.AWSLambdaClient;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @Slf4j
 @PluginDescriptor(
 		name = "Equipment Lock"
 )
+
 public class Equipment_Lock extends Plugin {
 	@Inject
 	private Client client;
+
+	@Inject
+	private Gson gson;
 
 	@Inject
 	private Equipment_Lock_Config config;
 
 	@Inject
 	private ConfigManager configManager;
+
+	@Inject
+	private AWSLambdaClient awsLambdaClient;
 
 	private static final String TABLE_NAME = "Item_Assignments";
 	private static final String PARTITION_KEY = "group_item"; // Composite key for group and item
@@ -98,10 +105,10 @@ public class Equipment_Lock extends Plugin {
 	}
 
 	private void handleItemEquip(String itemName, String playerName, String groupId, MenuOptionClicked event) {
-		String hashedPlayerName = Utils.hashUsername(playerName);
+		String accountHash = Long.toString(client.getAccountHash());
 
 		log.info("Equipped item name: " + itemName);
-		log.info("Hashed player name: " + hashedPlayerName);
+		log.info("Account hash: " + accountHash);
 		log.info("Group ID: " + groupId);
 
 		if (config.excludeQuestItems() && QUEST_ITEMS_WHITELIST.contains(itemName)) {
@@ -115,7 +122,7 @@ public class Equipment_Lock extends Plugin {
 		if (owner != null) {
 			// Item found in cache, check ownership
 			log.info("Item found in cache with owner: " + owner);
-			if (!hashedPlayerName.equals(owner)) {
+			if (!accountHash.equals(owner)) {
 				// Player is not the owner, prevent equipping
 				log.info("Player is not the owner, preventing equip.");
 				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Someone else in your group has claimed the right to this item, so you cannot equip it.", null);
@@ -131,12 +138,12 @@ public class Equipment_Lock extends Plugin {
 			payload.put("group_item", cacheKey);
 
 			try {
-				String response = AWSLambdaClient.callLambda(payload); // Synchronous call
+				String response = awsLambdaClient.callLambda(payload); // Synchronous call
 				log.info("Response from getItem: " + response);
 
 				// Parse the response (assuming the response contains the owner information)
-				Map<String, Object> responseMap = new ObjectMapper().readValue(response, Map.class);
-				Map<String, Object> body = responseMap.containsKey("body") ? new ObjectMapper().readValue(responseMap.get("body").toString(), Map.class) : null;
+				Map<String, Object> responseMap = gson.fromJson(response, new TypeToken<Map<String, Object>>() {}.getType());
+				Map<String, Object> body = responseMap.containsKey("body") ? gson.fromJson(responseMap.get("body").toString(), new TypeToken<Map<String, Object>>() {}.getType()) : null;
 				Map<String, String> item = body != null ? (Map<String, String>) body.get("Item") : null;
 
 				log.info("Parsed item: " + item);
@@ -146,7 +153,7 @@ public class Equipment_Lock extends Plugin {
 					log.info("Item exists with owner: " + serverOwner);
 					localCache.put(cacheKey, serverOwner);
 
-					if (!hashedPlayerName.equals(serverOwner)) {
+					if (!accountHash.equals(serverOwner)) {
 						// Player is not the owner, prevent equipping
 						log.info("Player is not the owner, preventing equip.");
 						client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Someone else in your group has claimed the right to this item, so you cannot equip it.", null);
@@ -168,12 +175,12 @@ public class Equipment_Lock extends Plugin {
 							putPayload.put("action", "putItem");
 							Map<String, String> newItem = new HashMap<>();
 							newItem.put(PARTITION_KEY, cacheKey);
-							newItem.put(ATTRIBUTE_OWNER, hashedPlayerName);
+							newItem.put(ATTRIBUTE_OWNER, accountHash);
 							putPayload.put("item", newItem);
 
-							AWSLambdaClient.callLambdaAsync(putPayload).thenAccept(putResponse -> {
+							awsLambdaClient.callLambdaAsync(putPayload).thenAccept(putResponse -> {
 								log.info("Item added to DynamoDB: " + putResponse);
-								localCache.put(cacheKey, hashedPlayerName); // Update the cache
+								localCache.put(cacheKey, accountHash); // Update the cache
 							});
 						} catch (Exception e) {
 							log.error("Error adding item to DynamoDB", e);
@@ -185,6 +192,7 @@ public class Equipment_Lock extends Plugin {
 			}
 		}
 	}
+
 
 
 	@Provides
@@ -213,13 +221,13 @@ public class Equipment_Lock extends Plugin {
 
 				log.info("Payload being sent: " + payload);
 
-				String response = AWSLambdaClient.callLambda(payload);
+				String response = awsLambdaClient.callLambda(payload);
 				log.info("Cache response: " + response);
 
-				Map<String, Object> responseMap = new ObjectMapper().readValue(response, Map.class);
+				Map<String, Object> responseMap = gson.fromJson(response, new TypeToken<Map<String, Object>>() {}.getType());
 				log.info("Parsed response map: " + responseMap);
 
-				Map<String, Object> body = responseMap.containsKey("body") ? new ObjectMapper().readValue(responseMap.get("body").toString(), Map.class) : null;
+				Map<String, Object> body = responseMap.containsKey("body") ? gson.fromJson(responseMap.get("body").toString(), new TypeToken<Map<String, Object>>() {}.getType()) : null;
 				log.info("Parsed body: " + body);
 
 				List<Map<String, String>> items = body != null ? (List<Map<String, String>>) body.get("Items") : null;
@@ -240,6 +248,4 @@ public class Equipment_Lock extends Plugin {
 			}
 		});
 	}
-
-
 }
