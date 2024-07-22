@@ -152,7 +152,7 @@ public class Equipment_Lock extends Plugin {
 			if (!accountHash.equals(owner)) {
 				// Player is not the owner, prevent equipping
 				log.info("Player is not the owner, preventing equip.");
-				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Someone else in your group has claimed the right to this item, so you cannot equip it.", null);
+				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "[Equipment Lock]: Another member of your group has already claimed the right to this item, so you cannot equip it.", null);
 				event.consume();
 			} else {
 				log.info("Player is the owner, allowing equipping.");
