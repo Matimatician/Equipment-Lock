@@ -134,12 +134,12 @@ public class Equipment_Lock extends Plugin {
 	private void handleItemEquip(String itemName, String playerName, String groupId, MenuOptionClicked event) {
 		String accountHash = Long.toString(client.getAccountHash());
 
-		log.info("Equipped item name: " + itemName);
-		log.info("Account hash: " + accountHash);
-		log.info("Group ID: " + groupId);
+		log.debug("Equipped item name: " + itemName);
+		log.debug("Account hash: " + accountHash);
+		log.debug("Group ID: " + groupId);
 
 		if (config.excludeQuestItems() && QUEST_ITEMS_WHITELIST.contains(itemName)) {
-			log.info("Item is whitelisted and quest item exclusion is enabled, bypassing server check.");
+			log.debug("Item is whitelisted and quest item exclusion is enabled, bypassing server check.");
 			return;
 		}
 
@@ -148,32 +148,32 @@ public class Equipment_Lock extends Plugin {
 
 		if (owner != null) {
 			// Item found in cache, check ownership
-			log.info("Item found in cache with owner: " + owner);
+			log.debug("Item found in cache with owner: " + owner);
 			if (!accountHash.equals(owner)) {
 				// Player is not the owner, prevent equipping
-				log.info("Player is not the owner, preventing equip.");
+				log.debug("Player is not the owner, preventing equip.");
 				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "[Equipment Lock]: Another member of your group has already claimed the right to this item, so you cannot equip it.", null);
 				event.consume();
 			} else {
-				log.info("Player is the owner, allowing equipping.");
+				log.debug("Player is the owner, allowing equipping.");
 			}
 		} else {
 			// Item not found in cache, fetch from server
-			log.info("Item not found in cache, fetching from server.");
+			log.debug("Item not found in cache, fetching from server.");
 			Map<String, Object> payload = new HashMap<>();
 			payload.put("action", "getItem");
 			payload.put("group_item", cacheKey);
 
 			try {
 				String response = awsLambdaClient.callLambda(payload); // Synchronous call
-				log.info("Response from getItem: " + response);
+				log.debug("Response from getItem: " + response);
 
 				// Parse the response (assuming the response contains the owner information)
 				Map<String, Object> responseMap = gson.fromJson(response, new TypeToken<Map<String, Object>>() {}.getType());
 				Map<String, Object> body = responseMap.containsKey("body") ? gson.fromJson(responseMap.get("body").toString(), new TypeToken<Map<String, Object>>() {}.getType()) : null;
 				Map<String, String> item = body != null ? (Map<String, String>) body.get("Item") : null;
 
-				log.info("Parsed item: " + item);
+				log.debug("Parsed item: " + item);
 				if (item != null && item.containsKey(ATTRIBUTE_OWNER)) {
 					// Item exists, update local cache
 					String serverOwner = item.get(ATTRIBUTE_OWNER);
@@ -193,7 +193,7 @@ public class Equipment_Lock extends Plugin {
 					log.info("Item does not exist, allowing equip and creating new entry.");
 
 					// Allow equipping immediately
-					log.info("Player is allowed to equip the item.");
+					log.debug("Player is allowed to equip the item.");
 
 					// Create new entry in DynamoDB asynchronously
 					CompletableFuture.runAsync(() -> {
@@ -206,7 +206,7 @@ public class Equipment_Lock extends Plugin {
 							putPayload.put("item", newItem);
 
 							awsLambdaClient.callLambdaAsync(putPayload).thenAccept(putResponse -> {
-								log.info("Item added to DynamoDB: " + putResponse);
+								log.debug("Item added to DynamoDB: " + putResponse);
 								localCache.put(cacheKey, accountHash); // Update the cache
 							});
 						} catch (Exception e) {
@@ -231,7 +231,7 @@ public class Equipment_Lock extends Plugin {
 	public void onConfigChanged(ConfigChanged event) {
 		if (event.getGroup().equals("EquipmentLock") && event.getKey().equals("groupId")) {
 			String newGroupId = config.groupId();
-			log.info("Group ID changed: " + newGroupId);
+			log.debug("Group ID changed: " + newGroupId);
 			cacheData(newGroupId);
 		}
 	}
@@ -240,36 +240,36 @@ public class Equipment_Lock extends Plugin {
 		// Fetch and cache data asynchronously
 		CompletableFuture.runAsync(() -> {
 			try {
-				log.info("Starting cache data process for groupId: " + groupId);
+				log.debug("Starting cache data process for groupId: " + groupId);
 
 				Map<String, Object> payload = new HashMap<>();
 				payload.put("action", "getAllItemsForGroup");
 				payload.put("groupPrefix", groupId + "_"); // Adding underscore to group prefix
 
-				log.info("Payload being sent: " + payload);
+				log.debug("Payload being sent: " + payload);
 
 				String response = awsLambdaClient.callLambda(payload);
-				log.info("Cache response: " + response);
+				log.debug("Cache response: " + response);
 
 				Map<String, Object> responseMap = gson.fromJson(response, new TypeToken<Map<String, Object>>() {}.getType());
-				log.info("Parsed response map: " + responseMap);
+				log.debug("Parsed response map: " + responseMap);
 
 				Map<String, Object> body = responseMap.containsKey("body") ? gson.fromJson(responseMap.get("body").toString(), new TypeToken<Map<String, Object>>() {}.getType()) : null;
-				log.info("Parsed body: " + body);
+				log.debug("Parsed body: " + body);
 
 				List<Map<String, String>> items = body != null ? (List<Map<String, String>>) body.get("Items") : null;
-				log.info("Parsed items: " + items);
+				log.debug("Parsed items: " + items);
 
 				if (items != null) {
 					for (Map<String, String> item : items) {
 						String key = item.get("group_item");
 						String owner = item.get(ATTRIBUTE_OWNER);
 						localCache.put(key, owner);
-						log.info("Cached item - Key: " + key + ", Owner: " + owner);
+						log.debug("Cached item - Key: " + key + ", Owner: " + owner);
 					}
 				}
 
-				log.info("Cache updated with items: " + localCache);
+				log.debug("Cache updated with items: " + localCache);
 			} catch (Exception e) {
 				log.error("Error caching data", e);
 			}
