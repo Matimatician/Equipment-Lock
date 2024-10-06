@@ -37,8 +37,7 @@ import com.google.inject.Inject;
 import com.google.gson.reflect.TypeToken;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 public class AWSLambdaClient {
     private static final String API_URL = "https://ea4mluybog.execute-api.us-east-2.amazonaws.com/Prod/item";
@@ -72,7 +71,7 @@ public class AWSLambdaClient {
                     errorResponse.append(responseLine.trim());
                 }
             }
-            logger.error("Error: {} - {}", status, errorResponse.toString());
+            log.error("Error: {} - {}", status, errorResponse.toString());
         return null;
         }
 
