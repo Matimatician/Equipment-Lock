@@ -13,14 +13,16 @@ repositories {
 def runeLiteVersion = 'latest.release'
 
 dependencies {
-	compileOnly group: 'net.runelite', name:'client', version: runeLiteVersion
+    compileOnly group: 'net.runelite', name: 'client', version: runeliteVersion
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    
+    testImplementation group: 'net.runelite', name: 'client', version: runeliteVersion
+    testImplementation group: 'net.runelite', name: 'jShell', version: runeliteVersion
 
-	compileOnly 'org.projectlombok:lombok:1.18.30'
-	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-	testImplementation 'junit:junit:4.12'
-	testImplementation group: 'net.runelite', name:'client', version: runeLiteVersion
-	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
+    // Add slf4j API for logging
+    compileOnly 'org.slf4j:slf4j-api:1.7.30'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 }
 
 group = 'com.example'
