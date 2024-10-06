@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AWSLambdaClient {
     private static final String API_URL = "https://ea4mluybog.execute-api.us-east-2.amazonaws.com/Prod/item";
     private static final String API_KEY = "zRvjKa6FzY9dSUSMxQBpbEIW2MMkGVl2G56V7000";
