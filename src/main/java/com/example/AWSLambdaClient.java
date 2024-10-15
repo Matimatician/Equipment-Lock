@@ -33,7 +33,6 @@ import okhttp3.*;
 
 import java.io.IOException;
 import java.util.Map;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -55,7 +54,7 @@ public class AWSLambdaClient {
         String jsonPayload = gson.toJson(payload);
         
         // Create request body
-        RequestBody body = RequestBody.create(jsonPayload.getBytes(StandardCharsets.UTF_8), JSON);
+        RequestBody body = RequestBody.create(JSON, jsonPayload);
         
         // Build the request
         Request request = new Request.Builder()
