@@ -74,7 +74,7 @@ public class AWSLambdaClient {
 
             String responseJson = response.body().string();
             long endTime = System.nanoTime();
-            System.out.println("Lambda call duration: " + (endTime - startTime) / 1_000_000 + " ms");
+            log.debug("Lambda call duration: {} ms", (endTime - startTime) / 1_000_000);
 
             // Parse response
             Map<String, Object> responseMap = gson.fromJson(responseJson, new TypeToken<Map<String, Object>>() {}.getType());
