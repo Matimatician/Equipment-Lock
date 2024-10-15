@@ -54,7 +54,7 @@ public class AWSLambdaClient {
         String jsonPayload = gson.toJson(payload);
         
         // Create request body
-        RequestBody body = RequestBody.create(jsonPayload, JSON);
+        RequestBody body = RequestBody.create(jsonPayload.getBytes(StandardCharsets.UTF_8), JSON);
         
         // Build the request
         Request request = new Request.Builder()
