@@ -190,7 +190,7 @@ public class Equipment_Lock extends Plugin {
    		"Karil's leathertop", "Karil's leathertop 100", "Karil's leathertop 75", "Karil's leathertop 50", "Karil's leathertop 25",
     		"Karil's leatherskirt", "Karil's leatherskirt 100", "Karil's leatherskirt 75", "Karil's leatherskirt 50", "Karil's leatherskirt 25",
     		"Karil's crossbow", "Karil's crossbow 100", "Karil's crossbow 75", "Karil's crossbow 50", "Karil's crossbow 25", "Rune platebody", 
-    		"Torag's helm", "Torag's helm 100", "Torag's helm 75", "Torag's helm 50", "Torag's helm 25", "Echo boots", "Toktz-ket-xil"
+    		"Torag's helm", "Torag's helm 100", "Torag's helm 75", "Torag's helm 50", "Torag's helm 25", "Echo boots", "Toktz-ket-xil",
    		"Torag's platebody", "Torag's platebody 100", "Torag's platebody 75", "Torag's platebody 50", "Torag's platebody 25",
    		"Torag's platelegs", "Torag's platelegs 100", "Torag's platelegs 75", "Torag's platelegs 50", "Torag's platelegs 25",
    		"Torag's hammers", "Torag's hammers 100", "Torag's hammers 75", "Torag's hammers 50", "Torag's hammers 25", "Arclight", 
