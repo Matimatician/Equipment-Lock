@@ -104,18 +104,49 @@ public class Equipment_Lock extends Plugin {
 	));
 	// Whitelist of items required for clue scrolls (different tiers)
 	private static final Set<String> BEGINNER_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
-    		// Add easy clue items here
+    		"Gold ring", "Gold necklace", "Chef's hat", "Red cape", "Bronze axe", "Leather boots"
 	));
 	private static final Set<String> EASY_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
-    		// Add easy clue items here
+    		"Studded body", "Bronze platelegs", "Staff", "Coif", "Iron platebody", "Leather gloves", "Iron chainbody", "Leather chaps",
+		"Iron platelegs", "Emerald amulet", "Oak longbow", "Blue wizard hat", "Bronze 2h sword", "Ham boots", "Steel plateskirt", 
+		"Sapphire necklace", "White apron", "Green boots", "Iron med helm", "Emerald ring", "Blue robe top", "Ham robe", "Tiara",
+		"Sapphire amulet", "Bronze chainbody", "Sapphire ring", "Longbow", "Pink skirt", "Pink robe top", "Body tiara", 
+		"Steel full helm", "Steel platebody", "Iron plateskirt", "Bronze dagger", "Iron full helm", "Gold ring", "Air tiara", 
+		"Staff of water", "Desert shirt", "Leather boots", "Green robe bottoms", "Steel axe", "Leather cowl", "Steel pickaxe", 
+		"Steel med helm", "Gold necklace", "Bronze spear", "Green hat", "Cream robe top", "Studded chaps", "Bronze full helm",
+		"Black axe", "Ruby ring", "Blue robe top", "Turquoise robe bottoms", "Oak shortbow", "Hardleather body", "Bronze axe", 
+		"Mithril pickaxe", "Black platebody", "Iron kiteshield", "Black cape", "Steel mace", "Steel longsword", "Emerald necklace",
+		"Blue skirt", "Turquoise robe top", "Green robe top", "Iron warhammer"
 	));
 
 	private static final Set<String> MEDIUM_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
-    		// Add medium clue items here
+    		"Green d'hide chaps", "Ring of dueling", "Mithril med helm", "Adamant platebody", "Adamant full helm", "Adamant platelegs",
+		"Green hat", "Snakeskin boots", "Iron pickaxe", "Steel platebody", "Maple shortbow", "Team-1 cape", "Team-2 cape", "Team-3 cape", 
+		"Team-4 cape", "Team-5 cape", "Team-6 cape", "Team-7 cape", "Team-8 cape", "Team-9 cape", "Team-10 cape","Team-11 cape", 
+		"Team-12 cape", "Team-13 cape", "Team-14 cape", "Team-15 cape","Team-16 cape", "Team-17 cape", "Team-18 cape", "Team-19 cape", 
+		"Team-20 cape","Team-21 cape", "Team-22 cape", "Team-23 cape", "Team-24 cape", "Team-25 cape", "Team-26 cape", "Team-27 cape", 
+		"Team-28 cape", "Team-29 cape", "Team-30 cape","Team-31 cape", "Team-32 cape", "Team-33 cape", "Team-34 cape", "Team-35 cape",
+    		"Team-36 cape", "Team-37 cape", "Team-38 cape", "Team-39 cape", "Team-40 cape","Team-41 cape", "Team-42 cape", "Team-43 cape", 
+		"Team-44 cape", "Team-45 cape","Team-46 cape", "Team-47 cape", "Team-48 cape", "Team-49 cape", "Team-50 cape", "Team cape i",
+		"Team cape x", "Team cape zero", "Brown apron", "Leather boots", "Leather gloves", "Green d'hide body", "Steel sq shield",
+		"Adamant halberd", "Mystic robe bottom", "Diamond ring", "Adamant warhammer", "Mithril boots", "Ring of life", "Blue boots",
+		"Hardleather body", "Silver sickle", "Adamant sword", "Sapphire amulet", "Adamant plateskirt", "Adamant sq shield", "Bone dagger",
+		"Mithril platebody", "Steel kiteshield", "Ring of forging", "Bruise blue snelm", "Staff of air", "Iron 2h sword", "Bronze full helm",
+		"Amulet of power", "Steel longsword", "Blue d'hide body", "Mystic gloves", "Adamant med helm", "Snakeskin chaps", "Mithril plateskirt",
+		"Maple longbow", "Iron med helm", "Purple gloves", "Mithril full helm", "Mithril chainbody", "Ruby amulet", "Mithril scimitar", 
+		"Blue d'hide vambraces", "Adamant boots", "Adamant dagger", "Steel platelegs", "Blue wizard hat", "Blue wizard robe" 
 	));
 
 	private static final Set<String> HARD_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
-    		// Add hard clue items here
+    		"Rune shield (h1)", "Rune shield (h2)", "Rune shield (h3)", "Rune shield (h4)", "Rune shield (h5)", "Mystic hat", "Bone spear",
+		"Rune helm (h1)", "Rune helm (h2)", "Rune helm (h3)", "Rune helm (h4)", "Rune helm (h5)", "Rune platebody", "Elemental shield",
+		"Saradomin stole", "Guthix stole", "Zamorak stole", "Armadyl stole", "Bandos stole", "Ancient stole", "Blue d'hide chaps", 
+		"Rune warhammer", "Blue d'hide body", "Blue d'hide vambraces", "Mystic robe top", "Ring of life", "Amulet of glory", "Rune boots", 
+		"Adamant 2h sword", "Mystic fire staff", "Diamond bracelet", "Rune spear", "Rune platelegs", "Rune full helm", "Fire battlestaff",
+		"Mithril platelegs", "Saradomin crozier", "Guthix crozier", "Zamorak crozier", "Armadyl crozier", "Bandos crozier", "Ancient crozier",
+		"Rune axe", "Red headband", "Black headband", "Brown headband", "White headband", "Blue headband", "Gold headband", "Pink headband", 
+		"Green headband", "Diamond ring", "Amulet of power", "Rune halberd", "Amulet of strength", "Iron platebody", "Adamant sq shield",
+		"Rune pickaxe", "Rune longsword", "Rune plateskirt"
 	));
 
 	private static final Set<String> ELITE_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
