@@ -53,4 +53,79 @@ public interface Equipment_Lock_Config extends Config
 	{
 		return true;
 	}
+	@ConfigItem(
+			keyName = "excludeClueItems",
+			name = "Exclude Emote Clue Required Items",
+			description = "Exclude items required for clue scroll emote steps from being locked",
+			position = 2
+	)
+	default boolean excludeClueItems()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "excludeEasyClues",
+			name = "Easy Clues",
+			description = "Exclude items required for Easy Clues",
+			hidden = true,
+			unhide = "excludeClueItems",
+			position = 3
+	)
+	default boolean excludeEasyClues()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "excludeMediumClues",
+			name = "Medium Clues",
+			description = "Exclude items required for Medium Clues",
+			hidden = true,
+			unhide = "excludeClueItems",
+			position = 4
+	)
+	default boolean excludeMediumClues()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "excludeHardClues",
+			name = "Hard Clues",
+			description = "Exclude items required for Hard Clues",
+			hidden = true,
+			unhide = "excludeClueItems",
+			position = 5
+	)
+	default boolean excludeHardClues()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "excludeEliteClues",
+			name = "Elite Clues",
+			description = "Exclude items required for Elite Clues",
+			hidden = true,
+			unhide = "excludeClueItems",
+			position = 6
+	)
+	default boolean excludeEliteClues()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "excludeMasterClues",
+			name = "Master Clues",
+			description = "Exclude items required for Master Clues",
+			hidden = true,
+			unhide = "excludeClueItems",
+			position = 7
+	)
+	default boolean excludeMasterClues()
+	{
+		return false;
+	}
 }
