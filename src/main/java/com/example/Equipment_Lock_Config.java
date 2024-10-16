@@ -66,7 +66,7 @@ public interface Equipment_Lock_Config extends Config
 
 	@ConfigItem(
 			keyName = "excludeEasyClues",
-			name = "Easy Clues",
+			name = "Exclude Easy Clues",
 			description = "Exclude items required for Easy Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
@@ -79,7 +79,7 @@ public interface Equipment_Lock_Config extends Config
 
 	@ConfigItem(
 			keyName = "excludeMediumClues",
-			name = "Medium Clues",
+			name = "Exclude Medium Clues",
 			description = "Exclude items required for Medium Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
@@ -92,7 +92,7 @@ public interface Equipment_Lock_Config extends Config
 
 	@ConfigItem(
 			keyName = "excludeHardClues",
-			name = "Hard Clues",
+			name = "Exclude Hard Clues",
 			description = "Exclude items required for Hard Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
@@ -105,7 +105,7 @@ public interface Equipment_Lock_Config extends Config
 
 	@ConfigItem(
 			keyName = "excludeEliteClues",
-			name = "Elite Clues",
+			name = "Exclude Elite Clues",
 			description = "Exclude items required for Elite Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
@@ -118,7 +118,7 @@ public interface Equipment_Lock_Config extends Config
 
 	@ConfigItem(
 			keyName = "excludeMasterClues",
-			name = "Master Clues",
+			name = "Exclude Master Clues",
 			description = "Exclude items required for Master Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
