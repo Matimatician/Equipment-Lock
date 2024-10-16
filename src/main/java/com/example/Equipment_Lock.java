@@ -249,32 +249,31 @@ public class Equipment_Lock extends Plugin {
 			log.debug("Item is whitelisted and quest item exclusion is enabled, bypassing server check.");
 			return;
 		}
-		if (config.excludeClueItems()) {
-    			if (config.excludeBeginnerClues() && BEGINNER_CLUE_ITEMS_WHITELIST.contains(itemName)) {
-        			log.debug("Item is whitelisted for easy clue scrolls, bypassing server check.");
-        			return;
-   			 }
-			if (config.excludeEasyClues() && EASY_CLUE_ITEMS_WHITELIST.contains(itemName)) {
-        			log.debug("Item is whitelisted for easy clue scrolls, bypassing server check.");
-        			return;
-   			 }
-   			 if (config.excludeMediumClues() && MEDIUM_CLUE_ITEMS_WHITELIST.contains(itemName)) {
-       				 log.debug("Item is whitelisted for medium clue scrolls, bypassing server check.");
-       				 return;
-    			}
-   			 if (config.excludeHardClues() && HARD_CLUE_ITEMS_WHITELIST.contains(itemName)) {
-       				 log.debug("Item is whitelisted for hard clue scrolls, bypassing server check.");
-       				 return;
-    			}
-   			 if (config.excludeEliteClues() && ELITE_CLUE_ITEMS_WHITELIST.contains(itemName)) {
-    				    log.debug("Item is whitelisted for elite clue scrolls, bypassing server check.");
-     				   return;
-   			 }
-  			  if (config.excludeMasterClues() && MASTER_CLUE_ITEMS_WHITELIST.contains(itemName)) {
-       				 log.debug("Item is whitelisted for master clue scrolls, bypassing server check.");
-        				return;
-    			}
-		}
+    		if (config.excludeBeginnerClues() && BEGINNER_CLUE_ITEMS_WHITELIST.contains(itemName)) {
+        		log.debug("Item is whitelisted for easy clue scrolls, bypassing server check.");
+        		return;
+   		 }
+		if (config.excludeEasyClues() && EASY_CLUE_ITEMS_WHITELIST.contains(itemName)) {
+        		log.debug("Item is whitelisted for easy clue scrolls, bypassing server check.");
+        		return;
+   		 }
+		 if (config.excludeMediumClues() && MEDIUM_CLUE_ITEMS_WHITELIST.contains(itemName)) {
+       			 log.debug("Item is whitelisted for medium clue scrolls, bypassing server check.");
+       			 return;
+    		}
+   		 if (config.excludeHardClues() && HARD_CLUE_ITEMS_WHITELIST.contains(itemName)) {
+       			 log.debug("Item is whitelisted for hard clue scrolls, bypassing server check.");
+       			 return;
+    		}
+   		 if (config.excludeEliteClues() && ELITE_CLUE_ITEMS_WHITELIST.contains(itemName)) {
+    			    log.debug("Item is whitelisted for elite clue scrolls, bypassing server check.");
+     			    return;
+   		 }
+  		  if (config.excludeMasterClues() && MASTER_CLUE_ITEMS_WHITELIST.contains(itemName)) {
+       			 log.debug("Item is whitelisted for master clue scrolls, bypassing server check.");
+        		 return;
+    		}
+		
 
 		String cacheKey = groupId + "_" + itemName;
 		String owner = localCache.get(cacheKey);
