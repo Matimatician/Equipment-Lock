@@ -61,6 +61,8 @@ public interface Equipment_Lock_Config extends Config
    		position = 2,
     		closedByDefault = true
 	)
+
+	String clueSection = "Clue Emote Item Exclusions";
 	
 	@ConfigItem(
 			keyName = "excludeBeginnerClues",
