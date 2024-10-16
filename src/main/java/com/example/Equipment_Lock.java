@@ -150,11 +150,64 @@ public class Equipment_Lock extends Plugin {
 	));
 
 	private static final Set<String> ELITE_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
-    		// Add elite clue items here
+    		"Black d'hide chaps", "Spotted cape", "Rolling pin", "Cape of legends", "Dragon battleaxe", "Amulet of glory(6)", "Climbing boots",
+		"Amulet of glory", "Amulet of glory(1)", "Amulet of glory(2)", "Amulet of glory(3)", "Amulet of glory(4)", "Amulet of glory(5)", 
+		"Amulet of eternal glory", "Holy book", "Unholy book", "Book of balance", "Book of war", "Book of law", "Book of darkness",
+		"Sunfire fanatic helm", "Sunfire fanatic cuirass", "Sunfire fanatic chausses", "Rune crossbow", "Ring of visibility", 
+		"Ring of shadows", "Ring of shadows (uncharged)", "Barrows gloves", "Dragon med helm", "Seercull", "Helm of neitiznot",
+		"Saradomin mitre", "Guthix mitre", "Zamorak mitre", "Armadyl mitre", "Bandos mitre", "Ancient mitre", "Combat bracelet(1)", 
+		"Combat bracelet", "Combat bracelet(2)", "Combat bracelet(3)", "Combat bracelet(4)", "Combat bracelet(5)", "Combat bracelet(6)", 
+		"Pirate bandana", "Dragon necklace", "Magic longbow", "Rune boots", "Proselyte hauberk", "Dragonstone ring", "Granite shield", 
+		"Splitbark body", "Splitbark legs", "Dragon boots", "Rune longsword", "Castle wars bracelet(3)", "Castle wars bracelet(2)", 
+		"Castle wars bracelet(1)", "Dragonstone amulet", "Ring of forging", "Blue d'hide vambraces", "Dragon spear", "Rune plateskirt", 
+		"Farmer's strawhat", "Shayzien body (5)", "Pyromancer robe", "Black salamander", "Mystic robe bottom", "Rune kiteshield", 
+		"Bob's black shirt", "Bob's blue shirt", "Bob's green shirt", "Bob's purple shirt", "Bob's red shirt", "Red d'hide chaps",
+		"Lava battlestaff", "Black d'hide vambraces", "Mind shield"
 	));
 
 	private static final Set<String> MASTER_CLUE_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
-    		// Add master clue items here
+    		"Bryophyta's staff (uncharged)", "Bryophyta's staff", "Nature tiara", "Zamorak full helm", "Shadow sword", "Dragon battleaxe",
+		"Dragon defender", "Araxyte slayer helmet", "Black slayer helmet", "Green slayer helmet", "Red slayer helmet", "Purple slayer helmet", 
+		"Turquoise slayer helmet", "Hydra slayer helmet", "Twisted slayer helmet", "Tztok slayer helmet", "Vampyric slayer helmet", 
+		"Tzkal slayer helmet", "Araxyte slayer helmet (i)", "Black slayer helmet (i)", "Green slayer helmet (i)", "Red slayer helmet (i)", 
+		"Purple slayer helmet (i)", "Turquoise slayer helmet (i)", "Hydra slayer helmet (i)", "Twisted slayer helmet (i)", "Tztok slayer helmet (i)",
+		"Vampyric slayer helmet (i)", "Tzkal slayer helmet (i)", "Slayer helmet", "Slayer helmet (i)", "Crystal bow", "Crystal bow (inactive)", 
+		"Black d'hide body", "Black d'hide chaps", "Black d'hide vambraces", "Flared trousers", "Fire cape", "Toktz-xil-ul", "Iban's staff", 
+		"Iban's staff (u)", "Mystic robe top (dark)", "Mystic robe bottom (dark)", "Black dragon mask", "Death tiara", "Cape of legends", 
+		"Ahrim's hood", "Ahrim's hood 100", "Ahrim's hood 75", "Ahrim's hood 50", "Ahrim's hood 25", "Ring of wealth", "Blue moon helm", 
+   		"Ahrim's robetop", "Ahrim's robetop 100", "Ahrim's robetop 75", "Ahrim's robetop 50", "Ahrim's robetop 25", "Blue moon chestplate",
+   		"Ahrim's robeskirt", "Ahrim's robeskirt 100", "Ahrim's robeskirt 75", "Ahrim's robeskirt 50", "Ahrim's robeskirt 25", "Bandos cloak", 
+    		"Ahrim's staff", "Ahrim's staff 100", "Ahrim's staff 75", "Ahrim's staff 50", "Ahrim's staff 25", "Blue moon tassets", "Bandos godsword",
+    		"Dharok's helm", "Dharok's helm 100", "Dharok's helm 75", "Dharok's helm 50", "Dharok's helm 25", "Blue moon spear", "Dragon 2h sword", 
+    		"Dharok's platebody", "Dharok's platebody 100", "Dharok's platebody 75", "Dharok's platebody 50", "Dharok's platebody 25", "Bandos boots", 
+    		"Dharok's platelegs", "Dharok's platelegs 100", "Dharok's platelegs 75", "Dharok's platelegs 50", "Dharok's platelegs 25",
+    		"Dharok's greataxe", "Dharok's greataxe 100", "Dharok's greataxe 75", "Dharok's greataxe 50", "Dharok's greataxe 25", "Guardian boots", 
+    		"Guthan's helm", "Guthan's helm 100", "Guthan's helm 75", "Guthan's helm 50", "Guthan's helm 25", "Bandos platebody", "Dragon pickaxe", 
+   		"Guthan's platebody", "Guthan's platebody 100", "Guthan's platebody 75", "Guthan's platebody 50", "Guthan's platebody 25",
+   		"Guthan's chainskirt", "Guthan's chainskirt 100", "Guthan's chainskirt 75", "Guthan's chainskirt 50", "Guthan's chainskirt 25",
+  		"Guthan's warspear", "Guthan's warspear 100", "Guthan's warspear 75", "Guthan's warspear 50", "Guthan's warspear 25", "Pharaoh's sceptre",
+   		"Karil's coif", "Karil's coif 100", "Karil's coif 75", "Karil's coif 50", "Karil's coif 25", "Obsidian cape", "Dragon med helm", 
+   		"Karil's leathertop", "Karil's leathertop 100", "Karil's leathertop 75", "Karil's leathertop 50", "Karil's leathertop 25",
+    		"Karil's leatherskirt", "Karil's leatherskirt 100", "Karil's leatherskirt 75", "Karil's leatherskirt 50", "Karil's leatherskirt 25",
+    		"Karil's crossbow", "Karil's crossbow 100", "Karil's crossbow 75", "Karil's crossbow 50", "Karil's crossbow 25", "Rune platebody", 
+    		"Torag's helm", "Torag's helm 100", "Torag's helm 75", "Torag's helm 50", "Torag's helm 25", "Echo boots", "Toktz-ket-xil"
+   		"Torag's platebody", "Torag's platebody 100", "Torag's platebody 75", "Torag's platebody 50", "Torag's platebody 25",
+   		"Torag's platelegs", "Torag's platelegs 100", "Torag's platelegs 75", "Torag's platelegs 50", "Torag's platelegs 25",
+   		"Torag's hammers", "Torag's hammers 100", "Torag's hammers 75", "Torag's hammers 50", "Torag's hammers 25", "Arclight", 
+   		"Verac's helm", "Verac's helm 100", "Verac's helm 75", "Verac's helm 50", "Verac's helm 25", "Brine sabre", "Amulet of the damned",  
+    		"Verac's brassard", "Verac's brassard 100", "Verac's brassard 75", "Verac's brassard 50", "Verac's brassard 25", "Rune boots",
+    		"Verac's plateskirt", "Verac's plateskirt 100", "Verac's plateskirt 75", "Verac's plateskirt 50", "Verac's plateskirt 25",
+    		"Verac's flail", "Verac's flail 100", "Verac's flail 75", "Verac's flail 50", "Verac's flail 25", "Zamorak godsword", 
+		"Amulet of glory", "Amulet of glory(1)", "Amulet of glory(2)", "Amulet of glory(3)", "Amulet of glory(4)", "Amulet of glory(5)", 
+		"Amulet of glory(6)", "Amulet of eternal glory", "Abyssal whip", "Abyssal whip (or)", "Frozen abyssal whip", "Volcanic abyssal whip",
+		"Dragon pickaxe (or)", "Infernal pickaxe", "Crystal pickaxe (inactive)", "Crystal pickaxe", "Helm of neitiznot", "Dragon axe", 
+		"Infernal axe", "Infernal axe (uncharged)", "Infernal pickaxe (uncharged)", "Dragon felling axe", "Crystal felling axe (inactive)",
+		"Crystal felling axe", "Crystal axe (inactive)", "Crystal axe", "Dragon plateskirt", "Climbing boots", "Dragon chainbody", 
+		"Dragon sq shield", "Splitbark body", "Red boater", "Orange boater", "Green boater", "Blue boater", "Black boater", "Pink boater", 
+		"Purple boater", "White boater", "Menaphite purple robe", "Menaphite purple top", "Menaphite purple hat", "Hueycoatl hide coif", "Hueycoatl hide vambraces"
+		
+		
+		
 	));	
 
 	@Override
