@@ -65,16 +65,29 @@ public interface Equipment_Lock_Config extends Config
 	}
 
 	@ConfigItem(
+			keyName = "excludeBeginnerClues",
+			name = "Exclude Beginner Clues",
+			description = "Exclude items required for Beginner Clues",
+			hidden = true,
+			unhide = "excludeClueItems",
+			position = 3
+	)
+	default boolean excludeBeginnerClues()
+	{
+		return true;
+	}
+	
+	@ConfigItem(
 			keyName = "excludeEasyClues",
 			name = "Exclude Easy Clues",
 			description = "Exclude items required for Easy Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
-			position = 3
+			position = 4
 	)
 	default boolean excludeEasyClues()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
@@ -83,11 +96,11 @@ public interface Equipment_Lock_Config extends Config
 			description = "Exclude items required for Medium Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
-			position = 4
+			position = 5
 	)
 	default boolean excludeMediumClues()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
@@ -96,11 +109,11 @@ public interface Equipment_Lock_Config extends Config
 			description = "Exclude items required for Hard Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
-			position = 5
+			position = 6
 	)
 	default boolean excludeHardClues()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
@@ -109,11 +122,11 @@ public interface Equipment_Lock_Config extends Config
 			description = "Exclude items required for Elite Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
-			position = 6
+			position = 7
 	)
 	default boolean excludeEliteClues()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(
@@ -122,10 +135,10 @@ public interface Equipment_Lock_Config extends Config
 			description = "Exclude items required for Master Clues",
 			hidden = true,
 			unhide = "excludeClueItems",
-			position = 7
+			position = 8
 	)
 	default boolean excludeMasterClues()
 	{
-		return false;
+		return true;
 	}
 }
