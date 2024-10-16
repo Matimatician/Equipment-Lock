@@ -29,6 +29,7 @@ package com.example;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("EquipmentLock")
 public interface Equipment_Lock_Config extends Config
@@ -53,24 +54,20 @@ public interface Equipment_Lock_Config extends Config
 	{
 		return true;
 	}
-	@ConfigItem(
-			keyName = "excludeClueItems",
-			name = "Exclude Emote Clue Required Items",
-			description = "Exclude items required for clue scroll emote steps from being locked",
-			position = 2
-	)
-	default boolean excludeClueItems()
-	{
-		return false;
-	}
 
+	@ConfigSection(
+    		name = "Emote Clue Item Exclusions",
+    		description = "Settings for clue scroll emote item exclusions",
+   		position = 2,
+    		closedByDefault = true
+	)
+	
 	@ConfigItem(
 			keyName = "excludeBeginnerClues",
 			name = "Exclude Beginner Clues",
 			description = "Exclude items required for Beginner Clues",
-			hidden = true,
-			unhide = "excludeClueItems",
-			position = 3
+			section = clueSection,
+			position = 1
 	)
 	default boolean excludeBeginnerClues()
 	{
@@ -81,9 +78,8 @@ public interface Equipment_Lock_Config extends Config
 			keyName = "excludeEasyClues",
 			name = "Exclude Easy Clues",
 			description = "Exclude items required for Easy Clues",
-			hidden = true,
-			unhide = "excludeClueItems",
-			position = 4
+			section = clueSection,
+			position = 2
 	)
 	default boolean excludeEasyClues()
 	{
@@ -94,9 +90,8 @@ public interface Equipment_Lock_Config extends Config
 			keyName = "excludeMediumClues",
 			name = "Exclude Medium Clues",
 			description = "Exclude items required for Medium Clues",
-			hidden = true,
-			unhide = "excludeClueItems",
-			position = 5
+			section = clueSection,
+			position = 3
 	)
 	default boolean excludeMediumClues()
 	{
@@ -107,9 +102,8 @@ public interface Equipment_Lock_Config extends Config
 			keyName = "excludeHardClues",
 			name = "Exclude Hard Clues",
 			description = "Exclude items required for Hard Clues",
-			hidden = true,
-			unhide = "excludeClueItems",
-			position = 6
+			section = clueSection,
+			position = 4
 	)
 	default boolean excludeHardClues()
 	{
@@ -120,9 +114,8 @@ public interface Equipment_Lock_Config extends Config
 			keyName = "excludeEliteClues",
 			name = "Exclude Elite Clues",
 			description = "Exclude items required for Elite Clues",
-			hidden = true,
-			unhide = "excludeClueItems",
-			position = 7
+			section = clueSection,
+			position = 5
 	)
 	default boolean excludeEliteClues()
 	{
@@ -133,9 +126,8 @@ public interface Equipment_Lock_Config extends Config
 			keyName = "excludeMasterClues",
 			name = "Exclude Master Clues",
 			description = "Exclude items required for Master Clues",
-			hidden = true,
-			unhide = "excludeClueItems",
-			position = 8
+			section = clueSection,
+			position = 6
 	)
 	default boolean excludeMasterClues()
 	{
