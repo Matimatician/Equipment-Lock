@@ -73,7 +73,7 @@ public interface Equipment_Lock_Config extends Config
 	)
 	default boolean excludeBeginnerClues()
 	{
-		return true;
+		return false;
 	}
 	
 	@ConfigItem(
@@ -85,7 +85,7 @@ public interface Equipment_Lock_Config extends Config
 	)
 	default boolean excludeEasyClues()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -97,7 +97,7 @@ public interface Equipment_Lock_Config extends Config
 	)
 	default boolean excludeMediumClues()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -109,7 +109,7 @@ public interface Equipment_Lock_Config extends Config
 	)
 	default boolean excludeHardClues()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -121,7 +121,7 @@ public interface Equipment_Lock_Config extends Config
 	)
 	default boolean excludeEliteClues()
 	{
-		return true;
+		return false;
 	}
 
 	@ConfigItem(
@@ -133,6 +133,6 @@ public interface Equipment_Lock_Config extends Config
 	)
 	default boolean excludeMasterClues()
 	{
-		return true;
+		return false;
 	}
 }
