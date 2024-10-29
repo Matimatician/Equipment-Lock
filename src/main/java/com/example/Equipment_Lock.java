@@ -47,6 +47,7 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.common.collect.ImmutableSet;
 
 @Slf4j
 @PluginDescriptor(
@@ -75,6 +76,15 @@ public class Equipment_Lock extends Plugin {
 
 	// Local cache for the item ownership information
 	private Map<String, String> localCache = new HashMap<>();
+
+	public final Set<Integer> LMS_REGIONS = ImmutableSet.of(13658, 13659, 13660, 13914, 13915, 13916, 13918, 13919, 13920, 14174, 14175, 14176, 14430, 14431, 14432);
+
+	public boolean isLastManStanding(Client client) {
+        	if (LMS_REGIONS.contains(getLocation(client).getRegionID())) {
+           		return true;
+		}
+		return false;
+	}
 
 	// Whitelist of items required for quests
 	private static final Set<String> QUEST_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
@@ -244,6 +254,11 @@ public class Equipment_Lock extends Plugin {
 		log.debug("Equipped item name: " + itemName);
 		log.debug("Account hash: " + accountHash);
 		log.debug("Group ID: " + groupId);
+
+		if (isLastManStanding(client)) { 
+			log.debug("Player is in Last Man Standing, bypassing server check.");
+			return;
+		}
 
 		if (config.excludeQuestItems() && QUEST_ITEMS_WHITELIST.contains(itemName)) {
 			log.debug("Item is whitelisted and quest item exclusion is enabled, bypassing server check.");
