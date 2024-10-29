@@ -48,6 +48,8 @@ import java.util.concurrent.CompletableFuture;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.common.collect.ImmutableSet;
+import net.runelite.api.Actor;
+import net.runelite.api.coords.WorldPoint;
 
 @Slf4j
 @PluginDescriptor(
@@ -77,6 +79,17 @@ public class Equipment_Lock extends Plugin {
 	// Local cache for the item ownership information
 	private Map<String, String> localCache = new HashMap<>();
 
+	public WorldPoint getLocation(Client client) {
+    		return getLocation(client, client.getLocalPlayer());
+	}
+
+	public WorldPoint getLocation(Client client, Actor actor) {
+    		if (client.isInInstancedRegion()) {
+        		return WorldPoint.fromLocalInstance(client, actor.getLocalLocation());
+    		}
+    		return actor.getWorldLocation();
+	}
+	
 	public final Set<Integer> LMS_REGIONS = ImmutableSet.of(13658, 13659, 13660, 13914, 13915, 13916, 13918, 13919, 13920, 14174, 14175, 14176, 14430, 14431, 14432);
 
 	public boolean isLastManStanding(Client client) {
