@@ -34,10 +34,20 @@ import net.runelite.client.config.ConfigSection;
 @ConfigGroup("EquipmentLock")
 public interface Equipment_Lock_Config extends Config
 {
+	@ConfigSection(
+    		name = "Set Group ID",
+    		description = "Declare your group's ID",
+   		position = 0,
+    		closedByDefault = false
+	)
+	String groupSection = "Set Group ID";
+	
 	@ConfigItem(
 			keyName = "groupId",
 			name = "Group ID",
-			description = "The ID of your Group"
+			description = "The ID of your Group",
+			section = groupSection,
+			position = 1
 	)
 	default String groupId()
 	{
