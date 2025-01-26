@@ -122,7 +122,7 @@ public class Equipment_Lock extends Plugin {
 			"Goblin mail", "Ring of charos(a)", "Ring of charos", "Leather boots", "Leather gloves", "Priest gown",
 			"Magic secateurs", "Vyre noble shoes", "Vyre noble legs", "Vyre noble top", "Zamorak staff", "Guthix staff",
 			"Saradomin staff", "Dawnbringer", "Diving apparatus", "Fishbowl helmet", "Anger sword", "Anger spear",
-			"Anger mace", "Anger battleaxe", "Bronze arrow", "Bronze sword", "Shortbow", "White apron"
+			"Anger mace", "Anger battleaxe", "Bronze arrow", "Bronze sword", "Shortbow", "White apron", "Killer's knife"
 			// Add more items here as needed
 	));
 	// Whitelist of items required for clue scrolls (different tiers)
