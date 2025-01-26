@@ -105,10 +105,10 @@ public class Equipment_Lock extends Plugin {
 			"Ham shirt", "Ham robe", "Ham gloves", "Ham boots", "Ham cloak", "Ham logo", "Ice gloves",
 			"M'speak amulet", "Zombie monkey greegree", "Ninja monkey greegree", "Kruk monkey greegree",
 			"Bearded gorilla greegree", "Gorilla greegree", "Monkey talisman", "Karamjan monkey greegree",
-			"Catspeak amulet", "Gas mask", "Mourner top", "Mourner trousers", "Mourner boots",
+			"Catspeak amulet", "Gas mask", "Mourner top", "Mourner trousers", "Mourner boots", "Ham hood",
 			"Mourner gloves", "Mourner cloak", "Ogre bow", "SilverLight", "Excalibur", "Ring of visibility",
 			"Ivandis flail", "Blisterwood flail", "Bronze med helm", "Iron chainbody", "Plague jacket",
-			"Plague trousers", "Climbing boots", "Gold helmet", "Fixed device", "Ice arrows",
+			"Plague trousers", "Climbing boots", "Gold helmet", "Fixed device", "Ice arrows", "Medical gown",
 			"Lunar helm", "Lunar amulet", "Lunar ring", "Lunar Torso", "Lunar legs", "Lunar legs",
 			"Lunar boots", "Lunar cape", "Lunar staff", "Clockwork suit", "Silly jester hat",
 			"Silly jester top", "Silly jester tights", "Silly jester boots", "Hard hat", "Builder's shirt",
@@ -255,6 +255,7 @@ public class Equipment_Lock extends Plugin {
 			String itemName = cleanItemName(event.getMenuTarget());
 			String playerName = client.getLocalPlayer().getName();
 			String groupId = config.groupId();
+			String specificAccount = config.specificAccount()
 			if (itemName != null && playerName != null && !groupId.isEmpty()) {
 				handleItemEquip(itemName, playerName, groupId, event);
 			}
@@ -268,6 +269,11 @@ public class Equipment_Lock extends Plugin {
 		log.debug("Account hash: " + accountHash);
 		log.debug("Group ID: " + groupId);
 
+		if (!specificAccount.isEmpty() && playerName != specificAccount) { 
+			log.debug("Player is not on desired account, bypassing server check.");
+			return;
+		}
+		
 		if (isLastManStanding(client)) { 
 			log.debug("Player is in Last Man Standing, bypassing server check.");
 			return;
