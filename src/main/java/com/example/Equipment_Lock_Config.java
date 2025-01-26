@@ -149,7 +149,7 @@ public interface Equipment_Lock_Config extends Config
     		name = "Set Specific Account",
     		description = "Make this plugin active for only one account",
    		position = 3,
-    		closedByDefault = True
+    		closedByDefault = true
 	)
 	String accountSection = "Set Specific Account";
 	
