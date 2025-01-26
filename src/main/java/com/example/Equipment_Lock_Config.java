@@ -145,4 +145,23 @@ public interface Equipment_Lock_Config extends Config
 	{
 		return false;
 	}
+	@ConfigSection(
+    		name = "Set Specific Account",
+    		description = "Make this plugin active for only one account",
+   		position = 3,
+    		closedByDefault = True
+	)
+	String accountSection = "Set Specific Account";
+	
+	@ConfigItem(
+			keyName = "specificAccount",
+			name = "Account ID",
+			description = "The name of the only account you want this plugin active for",
+			section = accountSection,
+			position = 1
+	)
+	default String specificAccount()
+	{
+		return "";
+	}
 }
