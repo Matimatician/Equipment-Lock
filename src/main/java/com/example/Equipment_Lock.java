@@ -255,7 +255,7 @@ public class Equipment_Lock extends Plugin {
 			String itemName = cleanItemName(event.getMenuTarget());
 			String playerName = client.getLocalPlayer().getName();
 			String groupId = config.groupId();
-			String specificAccount = config.specificAccount()
+			String specificAccount = config.specificAccount();
 			if (itemName != null && playerName != null && !groupId.isEmpty()) {
 				handleItemEquip(itemName, playerName, groupId, event);
 			}
@@ -269,7 +269,7 @@ public class Equipment_Lock extends Plugin {
 		log.debug("Account hash: " + accountHash);
 		log.debug("Group ID: " + groupId);
 
-		if (!specificAccount.isEmpty() && playerName != specificAccount) { 
+		if (!specificAccount.isEmpty() && !playerName.equals(specificAccount)) { 
 			log.debug("Player is not on desired account, bypassing server check.");
 			return;
 		}
