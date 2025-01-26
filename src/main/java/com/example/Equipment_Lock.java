@@ -109,7 +109,7 @@ public class Equipment_Lock extends Plugin {
 			"Mourner gloves", "Mourner cloak", "Ogre bow", "SilverLight", "Excalibur", "Ring of visibility",
 			"Ivandis flail", "Blisterwood flail", "Bronze med helm", "Iron chainbody", "Plague jacket",
 			"Plague trousers", "Climbing boots", "Gold helmet", "Fixed device", "Ice arrows", "Medical gown",
-			"Lunar helm", "Lunar amulet", "Lunar ring", "Lunar Torso", "Lunar legs", "Lunar legs",
+			"Lunar helm", "Lunar amulet", "Lunar ring", "Lunar Torso", "Lunar legs", "Lunar legs", "Oak blackjack"
 			"Lunar boots", "Lunar cape", "Lunar staff", "Clockwork suit", "Silly jester hat",
 			"Silly jester top", "Silly jester tights", "Silly jester boots", "Hard hat", "Builder's shirt",
 			"Builder's trousers", "Builder's boots", "Black full helm", "Black platebody", "Black platelegs",
