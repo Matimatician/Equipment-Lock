@@ -71,7 +71,7 @@ public interface Equipment_Lock_Config extends Config
 			description = "Exclude items required for Diaries or Combat Achievements from being locked",
 			position = 2
 	)
-	default boolean excludeQuestItems()
+	default boolean excludeDiaryCAItems()
 	{
 		return false;
 	}
