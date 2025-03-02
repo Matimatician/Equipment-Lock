@@ -65,10 +65,22 @@ public interface Equipment_Lock_Config extends Config
 		return true;
 	}
 
+	@ConfigItem(
+			keyName = "excludeDiaryCAItems",
+			name = "Exclude Reqs for Diaries/CAs",
+			description = "Exclude items required for Diaries or Combat Achievements from being locked",
+			position = 2
+	)
+	default boolean excludeQuestItems()
+	{
+		return false;
+	}
+	
+
 	@ConfigSection(
     		name = "Emote Clue Item Exclusions",
     		description = "Settings for clue scroll emote item exclusions",
-   		position = 2,
+   		position = 3,
     		closedByDefault = true
 	)
 
@@ -148,7 +160,7 @@ public interface Equipment_Lock_Config extends Config
 	@ConfigSection(
     		name = "Set Specific Account",
     		description = "Make this plugin active for only one account",
-   		position = 3,
+   		position = 4,
     		closedByDefault = true
 	)
 	String accountSection = "Set Specific Account";
