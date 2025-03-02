@@ -270,7 +270,7 @@ public class Equipment_Lock extends Plugin {
 
 	@Subscribe
 	public void onMenuOptionClicked(MenuOptionClicked event) {
-		if (event.getMenuOption().equals("Wear") || event.getMenuOption().equals("Wield")) {
+		if (event.getMenuOption().equals("Wear") || event.getMenuOption().equals("Wield") || event.getMenuOption().equals("Equip")) {
 			String itemName = cleanItemName(event.getMenuTarget());
 			String playerName = client.getLocalPlayer().getName();
 			String groupId = config.groupId();
