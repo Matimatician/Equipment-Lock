@@ -127,7 +127,7 @@ public class Equipment_Lock extends Plugin {
 			"Ghostly robe", "Ghostly hood", "Ghostly gloves", "Ghostly boots", "Ghostly cloak", "Emissary hood", 
 			"Emissary robe top", "Emissary robe bottom", "Emissary sandals", "Ancient mace", "Brown apron", 
 			"Robe of elidinis", "Eagle cape", "Fake beak", "Butler's uniform", "Boots of lightness", "Darklight",
-			"Pendant of lucien", "Beads of the dead"
+			"Pendant of lucien", "Beads of the dead", "Doctor's hat", "Nurse hat"
 			// Add more items here as needed
 	));
 	private static final Set<String> DIARY_CA_ITEMS_WHITELIST = new HashSet<>(Arrays.asList(
@@ -137,7 +137,7 @@ public class Equipment_Lock extends Plugin {
 		"Swamp lizard", "Guam tar", "Mithril arrow", "Mithril bolts", "Mithril dart", "Mithril javelin", "Dragon scimitar", 
 		"Dual macuahuitl", "Eclipse atlatl", "Atlatl dart", "Blue moon spear", "Elemental shield", "Chinchompa", 
 		"Angler boots", "Angler hat", "Angler top", "Angler waders", "Hueycoatl hide coif", "Hueycoatl hide body", 
-		"Hueycoatl hide chaps", "Hueycoatl hide vambraces", "Dragon hunter crossbow", "	Dragon hunter lance", "Dragon hunter wand",
+		"Hueycoatl hide chaps", "Hueycoatl hide vambraces", "Dragon hunter crossbow", "Dragon hunter lance", "Dragon hunter wand",
 		"Salve amulet", "Keris", "Keris partisan of the sun", "Boots of stone", "Mith grapple", "Crystal bow", "Iban's staff (u)",
 		"Initiate sallet", "Initiate hauberk", "Initiate cuisse", "Dwarven helmet", "Granite body", "Guthix staff", "Saradomin staff", 
 		"Zamorak staff", "Proselyte sallet", "Proselyte hauberk", "Proselyte cuisse", "Crossbow", "Bronze crossbow", "Bronze bolts"
